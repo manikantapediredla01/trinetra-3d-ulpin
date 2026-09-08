@@ -48,17 +48,16 @@ async def lifespan(app: FastAPI):
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(
-        title="TRINETRA — 3D Property Intelligence Platform",
-        description=(
-            "3D ULPIN & Vertical Property Mapping System | "
-            "Department of Land Resources (DoLR) | SIH26011"
-        ),
-        version=settings.APP_VERSION,
-        docs_url="/api/docs" if settings.DEBUG else None,
-        redoc_url="/api/redoc" if settings.DEBUG else None,
-        lifespan=lifespan,
-    )
+   app = FastAPI(
+    title="TRINETRA - 3D Property Intelligence Platform",
+    description=(
+        "3D ULPIN & Vertical Property Mapping System - "
+        "Department of Land Resources (DoLR) | SIH26011"
+    ),
+    version=settings.APP_VERSION,
+    docs_url="/api/docs",
+    redoc_url="/api/redoc",
+)
 
     # Security headers middleware
     @app.middleware("http")
