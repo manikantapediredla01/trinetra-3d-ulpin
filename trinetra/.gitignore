@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Node & Frontend
+node_modules/
+frontend/dist/
+frontend/node_modules/
+.npm
+
+# Large datasets & raw point clouds
+*.pcd
+*.las
+*.laz
+*.tif
+*.tiff
+*.zip
+*.tar.gz
+*.gpkg
+
+# Vite & IDE
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

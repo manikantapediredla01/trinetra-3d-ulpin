@@ -1,0 +1,30 @@
+{
+  "property_id": "PROP-HYD-2024-001",
+  "ulpin": "IN-3D-HYD0-2024-0001",
+  "name": "Srinivas Commercial Complex",
+  "location": "Banjara Hills, Hyderabad, Telangana",
+  "coordinates": {
+    "lat": 17.4235,
+    "lon": 78.4483,
+    "elevation_msl": 536.0
+  },
+  "structure": {
+    "levels_total": 7,
+    "has_basement": true,
+    "footprint_m2": 252.0,
+    "height_m": 22.400000000000002
+  },
+  "flags": {
+    "encroachment": "2.3m overhang on West boundary into adjacent parcel",
+    "discrepancy": "6th floor constructed without TG-bPASS sanction amendment"
+  },
+  "data_composition": {
+    "real_data_pct": 5.0,
+    "synthetic_data_pct": 95.0,
+    "real_sources": [
+      "HMDA Cadastral (207MB)",
+      "Copernicus GLO-30 DEM",
+      "IITH LiDAR clip"
+    ]
+  }
+}

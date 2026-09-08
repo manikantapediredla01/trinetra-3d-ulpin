@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Node & Frontend
+node_modules/
+frontend/dist/
+frontend/node_modules/
+.npm
+.eslintcache
+
+# Environment & Credentials
+.env.local
+.env.*.local
+
+# Large datasets & raw point clouds (GitHub 100MB limit & long paths)
+datasets for trinetra/
+*.geojson
+*.pcd
+*.las
+*.laz
+*.tif
+*.tiff
+*.zip
+*.tar.gz
+*.gpkg
+
+# Vite & IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db

@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+/* ============================================================
+   TRINETRA Global Design System
+   Ministry of Rural Development | Department of Land Resources
+   ============================================================ */
+
+:root {
+  --color-white: #FFFFFF;
+  --color-bg: #F6F8FB;
+  --color-navy: #12355B;
+  --color-govblue: #1769AA;
+  --color-teal: #008C95;
+  --color-verified: #2E7D32;
+  --color-warning: #C98A00;
+  --color-critical: #C62828;
+  --color-dark: #17202A;
+  --color-muted: #667085;
+  --color-border: #E4E7EC;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-dark);
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-navy);
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+}
+
+@layer components {
+  /* ── Cards ── */
+  .card {
+    @apply bg-white rounded-lg border border-border shadow-card p-5;
+  }
+
+  .card-hover {
+    @apply bg-white rounded-lg border border-border shadow-card p-5 transition-all duration-200 hover:shadow-card-hover hover:border-govblue/20;
+  }
+
+  /* ── Buttons ── */
+  .btn {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded font-medium text-sm
+           transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded font-medium text-sm transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed bg-govblue text-white hover:bg-navy active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded font-medium text-sm transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed bg-white text-navy border border-border hover:border-govblue hover:text-govblue;
+  }
+
+  .btn-teal {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded font-medium text-sm transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed bg-teal text-white hover:bg-teal/90 active:scale-95;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded font-medium text-sm transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed bg-critical text-white hover:bg-critical/90;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded font-medium text-sm transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed text-muted hover:bg-surface hover:text-dark;
+  }
+
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+
+  .btn-lg {
+    @apply px-6 py-3 text-base;
+  }
+
+  /* ── Badges / Status ── */
+  .badge {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-verified {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-verified/10 text-verified border border-verified/20;
+  }
+
+  .badge-pending {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-warning/10 text-warning border border-warning/20;
+  }
+
+  .badge-critical {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-critical/10 text-critical border border-critical/20;
+  }
+
+  .badge-info {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-govblue/10 text-govblue border border-govblue/20;
+  }
+
+  .badge-synthetic {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-200;
+  }
+
+  .badge-real {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-teal/10 text-teal border border-teal/20;
+  }
+
+  .badge-derived {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-purple-50 text-purple-700 border border-purple-200;
+  }
+
+  .badge-quantum {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 border border-indigo-200;
+  }
+
+  /* ── Form Inputs ── */
+  .input {
+    @apply w-full px-3 py-2 border border-border rounded text-sm text-dark
+           placeholder:text-muted/60 focus:outline-none focus:ring-2
+           focus:ring-govblue/20 focus:border-govblue transition-colors;
+  }
+
+  .label {
+    @apply block text-xs font-medium text-dark/70 mb-1;
+  }
+
+  /* ── Section headings ── */
+  .section-title {
+    @apply text-lg font-bold text-navy flex items-center gap-2;
+  }
+
+  .page-title {
+    @apply text-2xl font-bold text-navy;
+  }
+
+  /* ── Workflow step ── */
+  .workflow-step {
+    @apply flex items-center gap-3 px-3 py-2 rounded cursor-pointer
+           transition-all duration-150;
+  }
+
+  .workflow-step-active {
+    @apply flex items-center gap-3 px-3 py-2 rounded cursor-pointer transition-all duration-150 bg-govblue text-white;
+  }
+
+  .workflow-step-completed {
+    @apply flex items-center gap-3 px-3 py-2 rounded cursor-pointer transition-all duration-150 bg-verified/10 text-verified;
+  }
+
+  .workflow-step-pending {
+    @apply flex items-center gap-3 px-3 py-2 rounded cursor-pointer transition-all duration-150 text-muted hover:bg-surface;
+  }
+
+  /* ── Demo Banner ── */
+  .demo-banner {
+    @apply bg-amber-50 border border-amber-200 rounded p-2 flex items-center gap-2
+           text-xs text-amber-700 font-medium;
+  }
+
+  /* ── Pipeline status indicators ── */
+  .pipeline-queued    { @apply text-muted bg-surface; }
+  .pipeline-processing { @apply text-govblue bg-govblue/5 animate-pulse-slow; }
+  .pipeline-completed { @apply text-verified bg-verified/5; }
+  .pipeline-warning   { @apply text-warning bg-warning/5; }
+  .pipeline-failed    { @apply text-critical bg-critical/5; }
+
+  /* ── Stat Cards ── */
+  .stat-card {
+    @apply bg-white rounded-lg border border-border shadow-card p-5 flex flex-col gap-1;
+  }
+
+  .stat-value {
+    @apply text-3xl font-bold text-navy;
+  }
+
+  .stat-label {
+    @apply text-xs font-medium text-muted uppercase tracking-wide;
+  }
+
+  /* ── Panel ── */
+  .panel {
+    @apply bg-white rounded-lg border border-border shadow-panel;
+  }
+
+  /* ── Table ── */
+  .tbl-header {
+    @apply text-xs font-semibold text-muted uppercase tracking-wider px-4 py-3
+           bg-surface border-b border-border;
+  }
+
+  .tbl-cell {
+    @apply px-4 py-3 text-sm text-dark border-b border-border/50;
+  }
+
+  /* ── Validation row ── */
+  .validation-row {
+    @apply flex items-center justify-between py-2 px-3 rounded hover:bg-surface;
+  }
+
+  /* ── Scrollbar ── */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar { width: 4px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background-color: var(--color-border); border-radius: 4px; }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .gradient-navy { background: linear-gradient(135deg, #12355B 0%, #1769AA 100%); }
+  .gradient-teal { background: linear-gradient(135deg, #008C95 0%, #1769AA 100%); }
+  .glass { backdrop-filter: blur(8px); background: rgba(255,255,255,0.85); }
+}
