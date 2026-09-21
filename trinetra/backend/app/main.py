@@ -49,10 +49,10 @@ async def lifespan(app: FastAPI):
 
 def create_app() -> FastAPI:
     app = FastAPI(
-        title="TRINETRA - 3D Property Intelligence Platform",
+        title="TRINETRA - 3D Cadastre & Spatial Intelligence Platform",
         description=(
-            "3D ULPIN & Vertical Property Mapping System - "
-            "Department of Land Resources (DoLR) | SIH26011"
+            "Enterprise 3D ULPIN & Volumetric Property Mapping System — "
+            "National Spatial Data Infrastructure & Cadastral Registry"
         ),
         version=settings.APP_VERSION,
         docs_url="/api/docs",
@@ -116,6 +116,7 @@ def create_app() -> FastAPI:
     app.include_router(demo.router, prefix=prefix, tags=["Demo"])
 
     @app.get("/health")
+    @app.get("/healthz")
     @app.get(f"{prefix}/health")
     async def health():
         return {"status": "ok", "system": "TRINETRA", "version": settings.APP_VERSION}

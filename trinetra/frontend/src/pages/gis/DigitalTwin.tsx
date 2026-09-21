@@ -1,10 +1,12 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import {
-  Layers, Building, Box, Eye, EyeOff, Shield,
-  QrCode, AlertTriangle, CheckCircle, Info, Download,
-  Maximize2, RotateCcw, Sliders, ChevronRight
+  Layers, Building, Box, Shield,
+  QrCode, AlertTriangle, CheckCircle, Sliders, RotateCcw,
+  Maximize2, ChevronRight
 } from 'lucide-react'
+import { propertiesApi } from '@/services/api'
+import DigitalTwinModal from '@/components/DigitalTwinModal'
 
 interface FloorUnitInfo {
   unit_number: string
@@ -18,50 +20,111 @@ interface FloorUnitInfo {
   status: 'VERIFIED' | 'FLAGGED'
 }
 
-const FLOOR_UNITS: FloorUnitInfo[] = [
-  { unit_number: 'U-0501', floor_level: 5, name: 'Level 5 (Top Floor)', usage: 'Executive Suites', area_m2: 252.0, elevation_msl: 552.0, ceiling_m: 3.2, tenant: 'Apex Cloud Solutions', status: 'FLAGGED' },
-  { unit_number: 'U-0401', floor_level: 4, name: 'Level 4 Office A', usage: 'IT Development Hub', area_m2: 126.0, elevation_msl: 548.8, ceiling_m: 3.2, tenant: 'CyberInfra Labs', status: 'VERIFIED' },
-  { unit_number: 'U-0402', floor_level: 4, name: 'Level 4 Office B', usage: 'Financial Services', area_m2: 126.0, elevation_msl: 548.8, ceiling_m: 3.2, tenant: 'Vedic Wealth Advisors', status: 'VERIFIED' },
-  { unit_number: 'U-0301', floor_level: 3, name: 'Level 3 Floor Plate', usage: 'Corporate Regional Office', area_m2: 252.0, elevation_msl: 545.6, ceiling_m: 3.2, tenant: 'Deccan Logistics Corp', status: 'VERIFIED' },
-  { unit_number: 'U-0201', floor_level: 2, name: 'Level 2 Floor Plate', usage: 'Engineering Consultancy', area_m2: 252.0, elevation_msl: 542.4, ceiling_m: 3.2, tenant: 'Vertex Geospatial', status: 'VERIFIED' },
-  { unit_number: 'U-0101', floor_level: 1, name: 'Level 1 Commercial', usage: 'Banking & Financial Center', area_m2: 252.0, elevation_msl: 539.2, ceiling_m: 3.2, tenant: 'Union Bank of India (Branch)', status: 'VERIFIED' },
-  { unit_number: 'U-0001', floor_level: 0, name: 'Ground Floor Retail', usage: 'High-street Retail Stores', area_m2: 252.0, elevation_msl: 536.0, ceiling_m: 3.2, tenant: 'Multi-brand Retail Outlet', status: 'VERIFIED' },
-  { unit_number: 'U-B101', floor_level: -1, name: 'Basement Parking', usage: 'Automated 2-Tier Parking', area_m2: 252.0, elevation_msl: 532.5, ceiling_m: 3.5, tenant: 'Building Common Facility', status: 'VERIFIED' },
-]
-
 export default function DigitalTwin() {
   const { propertyId } = useParams()
   const navigate = useNavigate()
+
+  const [properties, setProperties] = useState<any[]>([])
+  const [selectedPropertyId, setSelectedPropertyId] = useState<string>(propertyId || 'PROP-HYD-2024-001')
+  const [propertyData, setPropertyData] = useState<any>(null)
+  const [loading, setLoading] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false)
+
   const [selectedFloor, setSelectedFloor] = useState<number | null>(null)
-  const [selectedUnit, setSelectedUnit] = useState<FloorUnitInfo | null>(FLOOR_UNITS[0])
+  const [selectedUnit, setSelectedUnit] = useState<FloorUnitInfo | null>(null)
   const [wireframeMode, setWireframeMode] = useState(false)
   const [showCadastral, setShowCadastral] = useState(true)
   const [showEncroachment, setShowEncroachment] = useState(true)
   const [explodeView, setExplodeView] = useState(false)
   const [rotationAngle, setRotationAngle] = useState(25)
 
+  // Fetch properties list
+  useEffect(() => {
+    propertiesApi.list()
+      .then((res) => {
+        if (res.data && res.data.length > 0) {
+          setProperties(res.data)
+        }
+      })
+      .catch(() => {})
+  }, [])
+
+  // Fetch single property details
+  useEffect(() => {
+    if (!selectedPropertyId) return
+    setLoading(true)
+    propertiesApi.get(selectedPropertyId)
+      .then((res) => {
+        setPropertyData(res.data)
+        const units = res.data?.floor_units || res.data?.property?.floors || []
+        if (units.length > 0) {
+          setSelectedUnit(units[0])
+          setSelectedFloor(units[0].floor_level)
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }, [selectedPropertyId])
+
+  const prop = propertyData?.property || {}
+  const floorUnits: FloorUnitInfo[] = propertyData?.floor_units || prop?.floors || []
+  const distinctFloors = Array.from(new Set(floorUnits.map((u) => u.floor_level))).sort((a, b) => b - a)
+
   const activeFloorUnits = selectedFloor !== null
-    ? FLOOR_UNITS.filter((u) => u.floor_level === selectedFloor)
-    : FLOOR_UNITS
+    ? floorUnits.filter((u) => u.floor_level === selectedFloor)
+    : floorUnits
+
+  const isEncroached = prop?.encroachment?.has_encroachment || prop?.status === 'FLAGGED'
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-12">
-      {/* Top Banner */}
+    <div className="space-y-6 max-w-7xl mx-auto pb-12 animate-fade-in">
+      {/* Top Banner with Property Switcher */}
       <div className="card p-5 bg-white border-border flex flex-wrap items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="badge-verified text-xs font-semibold">3D DIGITAL PROPERTY TWIN</span>
             <span className="badge-info text-xs font-mono">LoD-2 VOLUMETRIC MODEL</span>
+            {isEncroached ? (
+              <span className="badge-critical text-xs flex items-center gap-1 font-semibold">
+                <AlertTriangle className="w-3 h-3" /> Encroachment Flagged
+              </span>
+            ) : (
+              <span className="badge-verified text-xs flex items-center gap-1 font-semibold">
+                <CheckCircle className="w-3 h-3" /> Verified Compliant
+              </span>
+            )}
           </div>
-          <h1 className="text-2xl font-bold text-navy">
-            Srinivas Commercial Complex — 3D Twin
+          <h1 className="text-2xl font-bold text-navy flex items-center gap-3">
+            {prop?.name || '3D Digital Twin Workbench'}
           </h1>
           <p className="text-xs text-muted mt-0.5">
-            ULPIN: <strong className="font-mono text-govblue font-bold">IN-3D-HYD0-2024-0001</strong> | Parcel: <span className="font-medium text-dark">HYD/BH/123/4</span> | Banjara Hills, Hyderabad
+            ULPIN: <strong className="font-mono text-govblue font-bold">{prop?.ulpin || 'IN-3D-HYD0-2024-0001'}</strong> | Parcel: <span className="font-medium text-dark">{prop?.parcel_ref || 'HYD/BH/123/4'}</span> | {prop?.district || 'Hyderabad'}
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2.5">
+          {/* Property Select Dropdown */}
+          <div className="flex items-center gap-2 bg-surface border border-border px-3 py-1.5 rounded-md">
+            <span className="text-xs text-muted font-medium">Switch Twin:</span>
+            <select
+              value={selectedPropertyId}
+              onChange={(e) => setSelectedPropertyId(e.target.value)}
+              className="bg-transparent text-xs font-bold text-navy outline-none cursor-pointer"
+            >
+              {properties.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.name} ({p.floor_count} Floors)
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <button
+            onClick={() => setModalOpen(true)}
+            className="btn-primary text-xs"
+          >
+            <Maximize2 className="w-3.5 h-3.5 mr-1" /> Open Twin Modal
+          </button>
           <button
             onClick={() => navigate('/officer/passport')}
             className="btn-secondary text-xs"
@@ -70,9 +133,9 @@ export default function DigitalTwin() {
           </button>
           <button
             onClick={() => navigate('/gis/explorer')}
-            className="btn-primary text-xs"
+            className="btn-secondary text-xs"
           >
-            <Layers className="w-3.5 h-3.5 mr-1" /> Full GIS Explorer
+            <Layers className="w-3.5 h-3.5 mr-1" /> 3D GIS Viewer
           </button>
         </div>
       </div>
@@ -89,7 +152,7 @@ export default function DigitalTwin() {
                   <Box className="w-3.5 h-3.5 text-cyan-400" /> WebGL LoD-2 Mesh
                 </span>
                 <span className="text-xs text-cyan-300/80 font-mono bg-cyan-950/60 border border-cyan-800/60 px-2 py-0.5 rounded">
-                  7 Levels | 4,838.4 m³
+                  {prop?.floor_count || floorUnits.length} Levels | {prop?.height_m || 22.4}m MSL
                 </span>
               </div>
 
@@ -141,16 +204,16 @@ export default function DigitalTwin() {
               >
                 {/* Upper Roof Cap */}
                 <div className="w-64 h-4 bg-slate-700/80 border border-slate-500/50 rounded-t flex items-center justify-center text-[10px] text-slate-300 font-mono shadow">
-                  ROOF SLAB (555.2m MSL)
+                  ROOF SLAB ({(prop?.base_elevation_m || 536.0) + (prop?.height_m || 22.4)}m MSL)
                 </div>
 
                 {/* Floors Stack Top-to-Bottom */}
-                {[5, 4, 3, 2, 1, 0, -1].map((level) => {
+                {distinctFloors.map((level) => {
                   const isSelected = selectedFloor === level
-                  const isEncroachingLevel = level === 5
-                  const isBasement = level === -1
+                  const isEncroachingLevel = level === 5 && isEncroached
+                  const isBasement = level < 0
 
-                  let bgStyle = 'bg-sky-600/40 border-sky-400/60 text-sky-100'
+                  let bgStyle = 'bg-sky-600/40 border-sky-400/60 text-sky-100 hover:border-cyan-300'
                   if (isSelected) {
                     bgStyle = 'bg-cyan-400 text-slate-950 font-bold border-white shadow-[0_0_20px_rgba(6,182,212,0.6)]'
                   } else if (isEncroachingLevel && showEncroachment) {
@@ -159,12 +222,14 @@ export default function DigitalTwin() {
                     bgStyle = 'bg-amber-900/40 border-amber-600/60 text-amber-200'
                   }
 
+                  const elev = (prop?.base_elevation_m || 536.0) + level * 3.2
+
                   return (
                     <div
                       key={level}
                       onClick={() => {
                         setSelectedFloor(isSelected ? null : level)
-                        const matching = FLOOR_UNITS.find((u) => u.floor_level === level)
+                        const matching = floorUnits.find((u) => u.floor_level === level)
                         if (matching) setSelectedUnit(matching)
                       }}
                       className={`w-64 h-11 border transition-all duration-200 cursor-pointer rounded flex items-center justify-between px-4 relative ${bgStyle} ${
@@ -173,25 +238,27 @@ export default function DigitalTwin() {
                     >
                       <div className="flex items-center gap-2">
                         <span className="font-mono text-xs font-semibold">
-                          {level === -1 ? 'B1' : level === 0 ? 'GF' : `L${level}`}
+                          {level < 0 ? `B${Math.abs(level)}` : level === 0 ? 'GF' : `L${level}`}
                         </span>
                         <span className="text-[11px] font-medium truncate max-w-[130px]">
-                          {level === -1
+                          {level < 0
                             ? 'Basement Parking'
-                            : level === 5
+                            : level === 5 && isEncroached
                             ? 'Level 5 (Unpermitted)'
+                            : level === 0
+                            ? 'Ground Floor'
                             : `Floor Level ${level}`}
                         </span>
                       </div>
 
                       <div className="text-[10px] font-mono opacity-90">
-                        {536.0 + level * 3.2}m
+                        {elev.toFixed(1)}m
                       </div>
 
                       {/* Encroachment Overhang Indicator Pin */}
                       {isEncroachingLevel && showEncroachment && (
                         <div className="absolute -left-10 bg-rose-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded shadow flex items-center gap-0.5">
-                          <AlertTriangle className="w-2.5 h-2.5" /> +3.2m
+                          <AlertTriangle className="w-2.5 h-2.5" /> +2.3m
                         </div>
                       )}
                     </div>
@@ -201,7 +268,7 @@ export default function DigitalTwin() {
                 {/* Ground Plane Cadastral Boundary Overlay */}
                 {showCadastral && (
                   <div className="w-80 h-2 bg-emerald-500/30 border-2 border-emerald-400 border-dashed rounded mt-2 flex items-center justify-center text-[9px] text-emerald-300 font-mono">
-                    PARCEL BOUNDARY (HYD/BH/123/4) — 536.0m MSL
+                    PARCEL BOUNDARY ({prop?.parcel_ref || 'PARCEL-REF'}) — {(prop?.base_elevation_m || 536.0)}m MSL
                   </div>
                 )}
               </div>
@@ -249,7 +316,7 @@ export default function DigitalTwin() {
               <div className="flex items-center justify-between text-xs text-muted">
                 <span>Selected Level:</span>
                 <span className="font-semibold text-navy">
-                  {selectedFloor !== null ? `Level ${selectedFloor}` : 'All 7 Levels Visible'}
+                  {selectedFloor !== null ? `Level ${selectedFloor}` : `All ${distinctFloors.length} Levels Visible`}
                 </span>
               </div>
               <div className="flex flex-wrap gap-1.5 pt-1">
@@ -261,19 +328,19 @@ export default function DigitalTwin() {
                 >
                   All Levels
                 </button>
-                {[-1, 0, 1, 2, 3, 4, 5].map((lvl) => (
+                {distinctFloors.map((lvl) => (
                   <button
                     key={lvl}
                     onClick={() => {
                       setSelectedFloor(lvl)
-                      const match = FLOOR_UNITS.find((u) => u.floor_level === lvl)
+                      const match = floorUnits.find((u) => u.floor_level === lvl)
                       if (match) setSelectedUnit(match)
                     }}
                     className={`px-2.5 py-1 rounded text-xs font-mono font-medium ${
                       selectedFloor === lvl ? 'bg-govblue text-white' : 'bg-surface text-dark hover:bg-gray-100'
                     }`}
                   >
-                    {lvl === -1 ? 'B1' : lvl === 0 ? 'GF' : `L${lvl}`}
+                    {lvl < 0 ? `B${Math.abs(lvl)}` : lvl === 0 ? 'GF' : `L${lvl}`}
                   </button>
                 ))}
               </div>
@@ -318,11 +385,11 @@ export default function DigitalTwin() {
                 </div>
               </div>
 
-              {selectedUnit.floor_level === 5 && (
+              {selectedUnit.floor_level === 5 && isEncroached && (
                 <div className="mt-4 p-3 bg-rose-50 border border-rose-200 rounded-lg text-xs text-rose-900 leading-tight flex items-start gap-2">
                   <AlertTriangle className="w-4 h-4 text-rose-700 shrink-0 mt-0.5" />
                   <span>
-                    <strong>Discrepancy Note:</strong> This level does not appear in TG-bPASS Sanction Permit (G+4 Approved). Flagged for municipal compliance review.
+                    <strong>Discrepancy Note:</strong> Unpermitted floor addition overhangs side setback boundary by +2.3m. Flagged for compliance review.
                   </span>
                 </div>
               )}
@@ -356,6 +423,13 @@ export default function DigitalTwin() {
           </div>
         </div>
       </div>
+
+      {/* Reusable Digital Twin Modal */}
+      <DigitalTwinModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        initialPropertyId={selectedPropertyId}
+      />
     </div>
   )
 }

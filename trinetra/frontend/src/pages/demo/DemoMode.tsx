@@ -326,7 +326,7 @@ export default function DemoMode() {
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <span className="badge bg-white/20 text-white font-mono text-xs uppercase tracking-wider px-2.5 py-1 rounded">
-                  SIH26011 Interactive Prototype
+                  TRINETRA Guided Walkthrough
                 </span>
                 <span className="badge bg-amber-400/90 text-navy font-semibold text-xs px-2.5 py-1 rounded">
                   15-Step End-to-End Workflow

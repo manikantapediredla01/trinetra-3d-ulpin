@@ -7,9 +7,10 @@ export default function AdminLayout() {
   const { user, logout } = useAuthStore()
   const navigate = useNavigate()
 
-  const handleLogout = async () => {
-    try { await authApi.logout() } catch {}
-    logout(); navigate('/login')
+  const handleLogout = () => {
+    logout()
+    navigate('/login')
+    authApi.logout().catch(() => {})
   }
 
   const items = [

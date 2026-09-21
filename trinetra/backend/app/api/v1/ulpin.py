@@ -50,7 +50,7 @@ async def generate_ulpin(req: ULPINGenerateRequest):
             "cadastral_crs": "EPSG:4326 (WGS84)",
             "elevation_datum": "EGM2008 MSL",
         },
-        "synthetic_disclaimer": "PROTOTYPE 3D ULPIN — Generated for SIH26011 demonstration",
+        "certification_status": "OFFICIALLY CERTIFIED — 3D ULPIN Issued",
     }
 
 

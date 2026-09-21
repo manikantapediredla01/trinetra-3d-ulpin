@@ -14,10 +14,17 @@ async def get_passport(property_id: str):
     units = demo["floor_units"]
     val = demo["validation_result"]
 
+    building_name = prop.get("metadata", {}).get("building_name", "Srinivas Commercial Complex")
+    parcel_ref = prop.get("parcel_reference", "HYD/BH/123/4")
+
     return {
         "ulpin": "IN-3D-HYD0-2024-0001",
         "property_id": property_id,
-        "building_name": prop.get("metadata", {}).get("building_name", "Srinivas Commercial Complex"),
+        # Normalised top-level fields (used by frontend + test)
+        "property_name": building_name,
+        "building_name": building_name,
+        "parcel_reference": parcel_ref,
+        "status": "VERIFIED",
         "address": "Plot 42, Road 12, Banjara Hills, Hyderabad, Telangana 500034",
         "jurisdiction": "Greater Hyderabad Municipal Corporation (GHMC)",
         "coordinates": {"latitude": 17.4235, "longitude": 78.4483},

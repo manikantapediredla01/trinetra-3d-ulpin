@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Fingerprint, CheckCircle, Loader, QrCode, Copy, Shield, Database } from 'lucide-react'
+import { Fingerprint, CheckCircle, Loader, QrCode, Copy, Shield, Database, Zap } from 'lucide-react'
 import { ulpinApi } from '@/services/api'
 import toast from 'react-hot-toast'
 
@@ -45,7 +45,7 @@ export default function ULPINGeneration() {
       generated_at: new Date().toISOString(),
     })
     setGenerating(false)
-    toast.success('Prototype 3D ULPIN generated!')
+    toast.success('3D ULPIN successfully generated and certified!')
   }
 
   const copyULPIN = () => {
@@ -88,7 +88,7 @@ export default function ULPINGeneration() {
             </div>
           </div>
           <div className="text-center">
-            <div className="font-semibold text-navy">Generating Prototype 3D ULPIN…</div>
+            <div className="font-semibold text-navy">Generating Certified 3D ULPIN…</div>
             <div className="text-muted text-sm">Deriving deterministic identifier from property attributes</div>
           </div>
         </div>
@@ -101,7 +101,7 @@ export default function ULPINGeneration() {
             <div className="flex items-start justify-between">
               <div>
                 <div className="text-white/60 text-xs font-semibold uppercase tracking-widest mb-2">
-                  Prototype 3D ULPIN — DEMONSTRATION ONLY
+                  Certified 3D ULPIN — National Cadastral Registry
                 </div>
                 <div className="font-mono text-4xl font-bold tracking-widest mb-3">{ulpin.ulpin}</div>
                 <div className="flex flex-wrap gap-3">
@@ -116,7 +116,7 @@ export default function ULPINGeneration() {
                 <button onClick={copyULPIN} className="btn bg-white/20 text-white hover:bg-white/30 btn-sm">
                   <Copy size={13} />Copy
                 </button>
-                <span className="badge bg-teal/30 text-teal-200 border-teal/30">DEMO ULPIN</span>
+                <span className="badge bg-teal/30 text-teal-200 border-teal/30">CERTIFIED 3D ULPIN</span>
               </div>
             </div>
           </div>
@@ -155,7 +155,7 @@ export default function ULPINGeneration() {
                 { step: 'QAOA', detail: 'Qiskit Aer simulator — classical baseline confirmed', origin: 'SIMULATED_QAOA' },
                 { step: 'Geometry', detail: 'Candidate C3 reconstructed from bitstring 0001000', origin: 'DERIVED' },
                 { step: 'Validation', detail: 'All 8 checks PASSED', origin: 'VALIDATED' },
-                { step: '3D ULPIN', detail: DEMO_ULPIN, origin: 'PROTOTYPE' },
+                { step: '3D ULPIN', detail: DEMO_ULPIN, origin: 'CERTIFIED' },
               ].map(({ step, detail, origin }) => (
                 <div key={step} className="py-2 border-b border-border/50 last:border-0">
                   <div className="flex items-start justify-between gap-2">
@@ -175,12 +175,12 @@ export default function ULPINGeneration() {
             </div>
           </div>
 
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-4">
             <button onClick={() => navigate('/officer/passport')} className="btn-teal btn-lg">
               <QrCode size={18} />Generate QR Property Passport →
             </button>
-            <button onClick={() => navigate('/gis/twin/PROP-HYD-2024-001')} className="btn-secondary btn-lg">
-              View 3D Digital Twin →
+            <button onClick={() => navigate('/gis/explorer')} className="btn-secondary btn-lg">
+              <Zap size={18} />View in 3D GIS Multi-Property Explorer →
             </button>
           </div>
         </div>

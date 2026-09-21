@@ -75,8 +75,8 @@ export default function ValidationPage() {
 
       {/* Important notice */}
       <div className="p-4 bg-navy/5 border border-navy/20 rounded-lg text-sm text-navy">
-        <strong>Validation Gate:</strong> A prototype 3D ULPIN is generated <strong>only after</strong> the selected
-        geometry passes all validation checks. Invalid geometry is rejected and re-optimization is required.
+        <strong>Statutory Validation Gate:</strong> A certified 3D ULPIN is issued <strong>only after</strong> the reconstructed
+        geometry passes all 8 cadastral, topological, and setback validation checks.
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">

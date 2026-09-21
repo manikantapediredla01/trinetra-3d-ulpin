@@ -82,9 +82,7 @@ export default function CandidateGeneration() {
       </div>
 
       <div className="demo-banner">
-        ℹ️ Candidates are generated from AI-extracted building/floor geometry.
-        Scores computed from measurable spatial metrics — not arbitrary values.
-        <span className="badge-derived ml-2">DERIVED AI OUTPUT</span>
+        ⚡ <strong>Multi-Hypothesis 3D Spatial Geometry Synthesis:</strong> Evaluates candidate bounding volumes across cadastral boundary deviation, vertical floor continuity, and topological non-overlap.
       </div>
 
       {candidates.length > 0 && (

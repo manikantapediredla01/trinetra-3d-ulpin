@@ -1,6 +1,6 @@
 """
 TRINETRA — End-to-End Pipeline CLI Demonstrator
-Problem: SIH26011 | Department of Land Resources (DoLR)
+National 3D Spatial Data Infrastructure & Property Intelligence
 
 Demonstrates the 15-step automated workflow from raw spatial evidence
 to validated 3D ULPIN and Digital Property Twin.

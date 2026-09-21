@@ -6,7 +6,7 @@ import { authApi } from '@/services/api'
 export default function CitizenLayout() {
   const { user, logout } = useAuthStore()
   const navigate = useNavigate()
-  const handleLogout = async () => { try { await authApi.logout() } catch {} logout(); navigate('/login') }
+  const handleLogout = () => { logout(); navigate('/login'); authApi.logout().catch(() => {}) }
   return (
     <div className="min-h-screen bg-background">
       <header className="bg-navy text-white px-6 py-4 flex items-center justify-between">

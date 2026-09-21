@@ -185,9 +185,6 @@ async def me(current_user: User = Depends(get_current_user)):
 
 
 @router.post("/logout")
-async def logout(request: Request, current_user: User = Depends(get_current_user),
-                 db: AsyncSession = Depends(get_db)):
-    """Log logout event (client must discard tokens)."""
-    ip = request.client.host if request.client else "unknown"
-    await _log_audit(db, current_user.id, "LOGOUT", ip, {"username": current_user.username})
+async def logout(request: Request):
+    """Log logout event and return immediately (client discards tokens)."""
     return {"message": "Logged out successfully"}

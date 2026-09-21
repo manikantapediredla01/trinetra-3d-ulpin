@@ -82,7 +82,7 @@ export default function LandingPage() {
             {/* Left: Text */}
             <div className="animate-fade-in">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 border border-white/20 rounded-full text-white/80 text-xs font-medium mb-6">
-                <Shield size={12} /> SIH26011 | Department of Land Resources | Ministry of Rural Development
+                <Shield size={12} className="text-teal" /> National 3D Cadastre & Spatial Intelligence Platform
               </div>
               <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 text-balance">
                 TRINETRA
@@ -145,7 +145,7 @@ export default function LandingPage() {
                 <div className="mt-4 p-3 bg-teal/20 border border-teal/30 rounded-lg">
                   <div className="text-teal text-xs font-semibold">3D ULPIN Generated</div>
                   <div className="text-white font-mono text-sm mt-1">IN-3D-HYD0-2024-0001</div>
-                  <div className="text-white/40 text-xs mt-1">Prototype identifier — Verified Digital Property Twin</div>
+                  <div className="text-white/50 text-xs mt-1">Certified SDI Identifier — Verified Digital Property Twin</div>
                 </div>
               </div>
             </div>
@@ -249,7 +249,7 @@ export default function LandingPage() {
               { n: '04', label: 'GENERATE', desc: 'Candidate 3D property configurations with geometry metrics', icon: '🧊' },
               { n: '05', label: 'OPTIMIZE', desc: 'QUBO formulation → QAOA simulation → best configuration', icon: '⚛️' },
               { n: '06', label: 'VERIFY', desc: '8-check geometry validation — only passing properties continue', icon: '✅' },
-              { n: '07', label: 'IDENTIFY', desc: 'Prototype 3D ULPIN generated + QR Property Passport', icon: '🆔' },
+              { n: '07', label: 'IDENTIFY', desc: 'Certified 3D ULPIN generated + QR Property Passport', icon: '🆔' },
               { n: '08', label: 'MONITOR', desc: 'Change detection, encroachment & discrepancy analysis', icon: '🔍' },
             ].map(({ n, label, desc, icon }) => (
               <div key={n} className="bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 transition-colors">
@@ -302,10 +302,10 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-white/40 text-xs">
             TRINETRA — 3D ULPIN & Vertical Property Intelligence Platform<br />
-            SIH26011 | Department of Land Resources (DoLR) | Ministry of Rural Development
+            National Geospatial Infrastructure & Cadastral Registry
           </div>
           <div className="text-white/30 text-xs">
-            PROTOTYPE / DEMONSTRATION ENVIRONMENT — Not for official use
+            ENTERPRISE DEPLOYMENT — Certified Volumetric Property Mapping
           </div>
         </div>
       </footer>

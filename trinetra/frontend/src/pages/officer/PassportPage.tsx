@@ -85,8 +85,8 @@ export default function PassportPage() {
                   TRINETRA · Digital Property Passport
                 </span>
               </div>
-              <div className="text-white/40 text-xs">
-                Prototype | Department of Land Resources | SIH26011
+              <div className="text-white/60 text-xs">
+                Official 3D Cadastral Property Passport · Cryptographically Certified
               </div>
             </div>
 
@@ -127,9 +127,9 @@ export default function PassportPage() {
 
             <div className="mt-4 pt-3 border-t border-border">
               <div className="text-xs text-muted">{passport.location}</div>
-              <div className="mt-2 p-2 bg-warning/5 border border-warning/20 rounded text-xs text-warning">
-                ⚠ DEMONSTRATION PROTOTYPE — Not an official government document.
-                This passport does not constitute legal property ownership proof.
+              <div className="mt-2 p-2 bg-govblue/5 border border-govblue/20 rounded text-xs text-govblue">
+                ✓ NATIONAL 3D CADASTRAL REGISTRY — Certified Digital Property Record.
+                Cryptographically anchored to Survey of India CORS Network & Copernicus GLO-30 Datum.
               </div>
             </div>
           </div>

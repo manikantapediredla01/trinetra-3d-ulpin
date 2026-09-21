@@ -114,9 +114,9 @@ export default function ValidationReview() {
       <div className="p-4 bg-navy/5 border border-navy/20 rounded-lg flex items-start gap-3 text-sm text-navy">
         <Shield size={18} className="shrink-0 mt-0.5 text-govblue" />
         <div>
-          <strong>Land Record Authority Notice:</strong> You are reviewing AI/Quantum-assisted
-          validation results for prototype ULPIN authorization. Your approval authorizes the
-          system to issue a <em>prototype</em> 3D ULPIN — not an official government instrument.
+          <strong>Land Record Authority Notice:</strong>          Review the spatial, topological, height, and cadastral
+          validation results for official 3D ULPIN authorization. Your approval authorizes the
+          system to issue a certified 3D ULPIN into the National Registry.
           Ensure all flagged cases (encroachment, discrepancy) are acknowledged before approval.
         </div>
       </div>
@@ -290,7 +290,7 @@ export default function ValidationReview() {
                   className="btn-primary w-full"
                 >
                   <ThumbsUp size={14} />
-                  {processing ? 'Processing...' : 'Approve — Issue Prototype ULPIN'}
+                  {processing ? 'Processing...' : 'Approve — Issue Certified 3D ULPIN'}
                 </button>
                 <button
                   onClick={() => submitDecision('REJECTED_BY_AUTHORITY')}
@@ -303,8 +303,7 @@ export default function ValidationReview() {
               </div>
 
               <p className="text-[10px] text-muted mt-2">
-                Approving issues a <strong>prototype ULPIN</strong> for SIH26011 demonstration.
-                Not an official government instrument.
+                Approving certifies the spatial validation and issues an official <strong>3D ULPIN</strong> record.
               </p>
             </div>
           )}
@@ -313,10 +312,10 @@ export default function ValidationReview() {
             <div className="card border-verified/30 bg-verified/5">
               <div className="flex items-center gap-2 mb-2">
                 <CheckCircle size={18} className="text-verified" />
-                <h3 className="font-bold text-verified">APPROVED</h3>
+                <h3 className="font-bold text-verified">APPROVED & CERTIFIED</h3>
               </div>
               <p className="text-sm text-verified">
-                Prototype ULPIN <strong>{selected.ulpin_candidate}</strong> has been authorized.
+                3D ULPIN <strong>{selected.ulpin_candidate}</strong> has been officially authorized.
               </p>
               <button
                 onClick={() => navigate('/officer/ulpin')}

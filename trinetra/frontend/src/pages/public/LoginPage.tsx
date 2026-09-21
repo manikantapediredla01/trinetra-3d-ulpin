@@ -87,8 +87,8 @@ export default function LoginPage() {
           <div className="text-white font-bold tracking-wide">TRINETRA</div>
           <div className="text-white/50 text-xs">3D ULPIN & Property Intelligence Platform</div>
         </div>
-        <div className="ml-auto text-white/30 text-xs text-right">
-          SIH26011<br />Department of Land Resources
+        <div className="ml-auto text-white/40 text-xs text-right">
+          National Geospatial Portal<br />Secure Cadastral Gateway
         </div>
       </header>
 
@@ -205,9 +205,9 @@ export default function LoginPage() {
 
           {/* ── Demo Accounts ── */}
           <div className="space-y-4">
-            <div className="demo-banner">
-              <Shield size={14} className="text-amber-600" />
-              <span>DEMONSTRATION ENVIRONMENT — Role-based access enforced</span>
+            <div className="demo-banner bg-govblue/10 border-govblue/20 text-navy">
+              <Shield size={14} className="text-govblue" />
+              <span>ROLE-BASED ACCESS CONTROL — Official User Portals</span>
             </div>
 
             <div className="card">

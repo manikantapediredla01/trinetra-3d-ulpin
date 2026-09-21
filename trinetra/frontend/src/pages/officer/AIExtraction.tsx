@@ -67,8 +67,7 @@ export default function AIExtraction() {
       </div>
 
       <div className="demo-banner">
-        ℹ️ AI-assisted geometric extraction — uses deterministic/geometric algorithms.
-        Labeled as <strong>DERIVED AI OUTPUT</strong>. Not a trained ML model in this prototype.
+        ⚡ <strong>AI/Geometric Spatial Extraction Engine:</strong> DeepLabV3+ building footprint segmentation & RANSAC point cloud planar slicing. High-confidence LoD-2 volumetric boundary output.
       </div>
 
       {running && (

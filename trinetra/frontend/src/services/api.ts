@@ -126,6 +126,7 @@ export const propertiesApi = {
   list: (params?: Record<string, string>) => api.get('/properties', { params }),
   get: (id: string) => api.get(`/properties/${id}`),
   search: (query: string) => api.get('/properties/search', { params: { q: query } }),
+  processDynamic: (data: Record<string, any>) => api.post('/properties/process-dynamic', data),
 }
 
 // ─── Encroachment ────────────────────────────────────────────────
@@ -185,4 +186,10 @@ export const usersApi = {
 export const reportsApi = {
   generate: (type: string, propertyId: string) =>
     api.post('/reports/generate', { type, property_id: propertyId }),
+}
+
+// ─── GIS Assistant ────────────────────────────────────────────────
+export const assistantApi = {
+  chat: (message: string, propertyId?: string) =>
+    api.post('/assistant/chat', { message, property_id: propertyId }),
 }

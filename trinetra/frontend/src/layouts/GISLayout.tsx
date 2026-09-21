@@ -6,7 +6,7 @@ import { authApi } from '@/services/api'
 export default function GISLayout() {
   const { user, logout } = useAuthStore()
   const navigate = useNavigate()
-  const handleLogout = async () => { try { await authApi.logout() } catch {} logout(); navigate('/login') }
+  const handleLogout = () => { logout(); navigate('/login'); authApi.logout().catch(() => {}) }
   const items = [
     { label: '3D GIS Explorer', path: '/gis/explorer', icon: Map },
     { label: 'Digital Twin', path: '/gis/twin', icon: Zap },
